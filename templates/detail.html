@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ product.name }} - Detail Produk</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <nav class="navbar navbar-dark bg-dark mb-5 shadow-sm">
+        <div class="container">
+            <a href="{{ url_for('home') }}" class="btn btn-outline-light btn-sm">
+                <i class="fas fa-arrow-left me-2"></i>Kembali ke Toko
+            </a>
+            <span class="navbar-brand mb-0 h1 mx-auto fw-bold">Detail Produk</span>
+            <div style="width: 100px;"></div> 
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row align-items-center">
+            
+            <div class="col-md-6 mb-4 text-center">
+                <div class="card border-0 shadow-lg p-3">
+                    <img src="{{ url_for('static', filename='img/' + product.image) }}" 
+                         class="img-fluid rounded" 
+                         alt="{{ product.name }}"
+                         style="max-height: 400px; object-fit: contain;">
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <span class="badge bg-primary px-3 py-2 mb-2">{{ product.category }}</span>
+                
+                <h1 class="display-5 fw-bold mb-2">{{ product.name }}</h1>
+                
+                <h2 class="text-danger fw-bold mb-4">{{ product.price }}</h2>
+
+                <p class="lead text-muted mb-4">
+                    {{ product.description }}
+                </p>
+
+                <div class="card bg-light border-0 mb-4">
+                    <div class="card-body">
+                        <h6 class="fw-bold text-dark"><i class="fas fa-list me-2"></i>Spesifikasi Utama:</h6>
+                        <ul class="mb-0 mt-2 list-unstyled">
+                            {% for spec in product.specs %}
+                                <li class="mb-1"><i class="fas fa-check text-success me-2"></i>{{ spec }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="d-grid gap-2 d-md-block">
+
+                    </a> -->
+                    
+                    <a href="https://wa.me/6285692509353?text=Halo%20Admin,%20saya%20tertarik%20membeli%20{{ product.name }}%20seharga%20{{ product.price }}" 
+                       target="_blank" 
+                       class="btn btn-outline-success btn-lg px-4">
+                        <i class="fab fa-whatsapp me-2"></i> Beli via WA
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center text-muted mt-5 py-4 border-top">
+        <p class="mb-0">&copy; 2025 Kelompok 2</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

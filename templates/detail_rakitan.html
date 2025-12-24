@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <title>{{ build.name }} - Detail Spesifikasi</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="bg-light">
+
+    <nav class="navbar navbar-dark bg-dark mb-4">
+        <div class="container">
+            <a href="{{ url_for('rakitan') }}" class="btn btn-outline-light btn-sm">
+                <i class="fas fa-arrow-left me-2"></i> List Rakitan
+            </a>
+            <span class="navbar-brand mb-0 h1 mx-auto">Rincian Komponen</span>
+            <div style="width: 100px;"></div>
+        </div>
+    </nav>
+
+    <div class="container pb-5">
+        <div class="row">
+            <div class="col-md-5 mb-4">
+                <div class="card shadow border-0">
+                    <img src="{{ url_for('static', filename='img/' + build.image) }}" class="card-img-top" alt="{{ build.name }}">
+                    <div class="card-body text-center bg-white">
+                        <h2 class="fw-bold text-primary">{{ build.price }}</h2>
+                        <small class="text-muted">*Harga dapat berubah sewaktu-waktu</small>
+                    </div>
+                </div>
+                
+                <div class="d-grid gap-2 mt-3">
+                    <a href="https://wa.me/6289617230417?text=Halo%20Admin,%20saya%20mau%20order%20{{ build.name }}" target="_blank" class="btn btn-success btn-lg">
+                        <i class="fab fa-whatsapp me-2"></i> Order via WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-md-7">
+                <h2 class="fw-bold mb-3">{{ build.name }}</h2>
+                <p class="lead text-muted">{{ build.description }}</p>
+
+                <div class="card shadow-sm border-0 mt-4">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0"><i class="fas fa-list-ul me-2"></i>Daftar Komponen</h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <table class="table table-striped table-hover mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th scope="col" width="30%">Komponen</th>
+                                    <th scope="col">Barang / Model</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for comp in build.components %}
+                                <tr>
+                                    <td class="fw-bold text-secondary">{{ comp.part }}</td>
+                                    <td>{{ comp.item }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="alert alert-warning mt-4 d-flex align-items-center">
+                    <i class="fas fa-info-circle fa-2x me-3"></i>
+                    <div>
+                        <strong>Catatan:</strong> Semua PC sudah dirakit rapi, manajemen kabel (cable management), dan sudah terinstall Windows (Trial/Ori sesuai paket).
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

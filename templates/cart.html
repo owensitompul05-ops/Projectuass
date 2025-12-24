@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keranjang Belanja - KompuNesia</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="bg-light">
+
+    <nav class="navbar navbar-dark bg-dark mb-4 shadow-sm">
+        <div class="container">
+            <a href="{{ url_for('home') }}" class="btn btn-outline-light btn-sm">
+                <i class="fas fa-arrow-left me-2"></i>Lanjut Belanja
+            </a>
+            <span class="navbar-brand mb-0 h1 mx-auto">Keranjang Saya</span>
+            <div style="width: 100px;"></div> </div>
+    </nav>
+
+    <div class="container pb-5">
+        
+        {% if not cart %}
+        <div class="text-center py-5">
+            <div class="mb-4">
+                <i class="fas fa-shopping-cart fa-5x text-muted opacity-50"></i>
+            </div>
+            <h3 class="fw-bold text-secondary">Wah, Keranjangmu Kosong!</h3>
+            <p class="text-muted">Sepertinya kamu belum menambahkan komponen komputer impianmu.</p>
+            <a href="{{ url_for('home') }}" class="btn btn-primary btn-lg mt-3 px-5">
+                <i class="fas fa-search me-2"></i>Cari Produk
+            </a>
+        </div>
+
+        {% else %}
+        <div class="row">
+            
+            <div class="col-lg-8">
+                <div class="card shadow-sm border-0 mb-4">
+                    <div class="card-header bg-white py-3">
+                        <h5 class="mb-0 fw-bold">Daftar Produk</h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th class="ps-4" style="width: 50%;">Produk</th>
+                                        <th style="width: 20%;">Harga</th>
+                                        <th style="width: 15%;">Jumlah</th>
+                                        <th style="width: 15%;">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in cart %}
+                                    <tr>
+                                        <td class="ps-4">
+                                            <div class="d-flex align-items-center">
+                                                <img src="{{ url_for('static', filename='img/' + item.image) }}" 
+                                                     class="rounded me-3 border" 
+                                                     style="width: 60px; height: 60px; object-fit: cover;"
+                                                     alt="{{ item.name }}">
+                                                <div>
+                                                    <h6 class="mb-0 fw-bold text-dark">{{ item.name }}</h6>
+                                                    <small class="text-muted">ID: {{ item.id }}</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        
+                                        <td class="fw-bold text-dark">{{ item.price }}</td>
+                                        
+                                        <td>
+                                            <span class="badge bg-secondary rounded-pill px-3">{{ item.quantity }}x</span>
+                                        </td>
+                                        
+                                        <td>
+                                            <a href="{{ url_for('remove_from_cart', product_id=item.id) }}" 
+                                               class="btn btn-sm btn-outline-danger" 
+                                               onclick="return confirm('Yakin ingin menghapus barang ini?');">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card shadow-sm border-0 sticky-top" style="top: 20px;">
+                    <div class="card-body p-4">
+                        <h5 class="fw-bold mb-4">Ringkasan Belanja</h5>
+                        
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Total Barang</span>
+                            <span class="fw-bold">{{ cart|length }} Item</span>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Biaya Pengiriman</span>
+                            <span class="text-success fw-bold">Gratis</span>
+                        </div>
+                        
+                        <hr>
+                        
+                        <div class="d-flex justify-content-between mb-4">
+                            <span class="h5 fw-bold">Total Tagihan</span>
+                            <span class="h4 fw-bold text-primary">{{ total }}</span>
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            <a href="{{ url_for('konfirmasi_pembayaran') }}" class="btn btn-success btn-lg fw-bold">
+                                <i class="fas fa-lock me-2"></i>Checkout Sekarang
+                            </a>
+                            
+                            <a href="https://wa.me/6281234567890?text=Halo%20Admin,%20saya%20mau%20checkout%20keranjang%20total%20{{ total }}" 
+                               target="_blank" class="btn btn-outline-success">
+                                <i class="fab fa-whatsapp me-2"></i>Beli via WhatsApp
+                            </a>
+                        </div>
+                        
+                        <div class="mt-3 text-center">
+                            <small class="text-muted"><i class="fas fa-shield-alt me-1"></i>Transaksi Aman & Terpercaya</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        {% endif %}
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
